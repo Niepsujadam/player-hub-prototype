@@ -69,7 +69,7 @@ const rows: Record<string, number[]> = {
   '4-2-3-1': [1, 4, 2, 3, 1],
 }
 
-type IconName = 'search' | 'user' | 'star' | 'plus' | 'close' | 'back' | 'slip' | 'pitch' | 'list' | 'activity' | 'home' | 'swap' | 'shield' | 'shirt'
+type IconName = 'search' | 'user' | 'star' | 'plus' | 'close' | 'back' | 'slip' | 'pitch' | 'list' | 'activity' | 'home' | 'swap' | 'shield' | 'shirt' | 'down'
 
 function Icon({ name }: { name: IconName }) {
   const paths: Record<IconName, React.ReactNode> = {
@@ -78,6 +78,7 @@ function Icon({ name }: { name: IconName }) {
     star: <path d="m12 3 2.7 5.5 6.1.9-4.4 4.3 1 6.1-5.4-2.9-5.4 2.9 1-6.1-4.4-4.3 6.1-.9Z" />,
     plus: <path d="M12 5v14M5 12h14" />,
     close: <path d="m6 6 12 12M18 6 6 18" />,
+    down: <path d="m6 9 6 6 6-6" />,
     back: <path d="m15 5-7 7 7 7" />,
     slip: <><path d="M7 3h10v18l-2-1.5-3 1.5-3-1.5L7 21Z" /><path d="M10 8h4M10 12h4" /></>,
     pitch: <><rect x="3" y="5" width="18" height="14" rx="1" /><path d="M12 5v14M3 9h4v6H3M21 9h-4v6h4" /><circle cx="12" cy="12" r="2.5" /></>,
@@ -239,8 +240,8 @@ function Discover({ query, setQuery, filtered, followed, selected, onFollow, onT
     <section className="search-area">
       <label className="search-box"><Icon name="search" /><input value={query} onChange={e => setQuery(e.target.value)} placeholder="Search player, club or position" aria-label="Search players" />{query && <button onClick={() => setQuery('')} aria-label="Clear search"><Icon name="close" /></button>}</label>
       <div className="player-advanced-filters">
-        <label><Icon name="shield" /><select value={clubFilter} onChange={event => setClubFilter(event.target.value)} aria-label="Filter by club"><option>All clubs</option>{clubs.map(club => <option key={club}>{club}</option>)}</select><span>⌄</span></label>
-        <label><Icon name="shirt" /><select value={positionFilter} onChange={event => setPositionFilter(event.target.value)} aria-label="Filter by position"><option>All positions</option>{positions.map(position => <option key={position}>{position}</option>)}</select><span>⌄</span></label>
+        <label><Icon name="shield" /><select value={clubFilter} onChange={event => setClubFilter(event.target.value)} aria-label="Filter by club"><option>All clubs</option>{clubs.map(club => <option key={club}>{club}</option>)}</select><span className="filter-chevron"><Icon name="down" /></span></label>
+        <label><Icon name="shirt" /><select value={positionFilter} onChange={event => setPositionFilter(event.target.value)} aria-label="Filter by position"><option>All positions</option>{positions.map(position => <option key={position}>{position}</option>)}</select><span className="filter-chevron"><Icon name="down" /></span></label>
       </div>
     </section>
     {!query && <BettingOpportunity bets={bets} addBet={addBet} openBetslip={openBetslip} onProfile={() => onProfile('saka')} />}
@@ -285,8 +286,8 @@ function Matches({ onEvent, onSquad, bets, addBet }: { onEvent: (fixture: string
   const visible = fixtures.filter(match => matchFilter === 'All' || match.type === matchFilter)
   return <main className="matches-page">
     <section className="match-controls">
-      <div className="match-selectors"><button>Premier League <span>⌄</span></button><button>Matchweek 7 <span>⌄</span></button></div>
-      <div className="matchweek-nav"><button aria-label="Previous matchweek">‹</button><div><strong>Matchweek 7</strong><span>Sat 17 Oct – Mon 19 Oct</span></div><button aria-label="Next matchweek">›</button></div>
+      <div className="match-selectors"><button>Premier League <Icon name="down" /></button><button>Matchweek 7 <Icon name="down" /></button></div>
+      <div className="matchweek-nav"><button aria-label="Previous matchweek"><Icon name="back" /></button><div><strong>Matchweek 7</strong><span>Sat 17 Oct – Mon 19 Oct</span></div><button aria-label="Next matchweek"><Icon name="back" /></button></div>
       <div className="filter-row match-filters">{['All', 'Live', 'Upcoming', 'Results'].map(filter => <button key={filter} className={matchFilter === filter ? 'active' : ''} onClick={() => setMatchFilter(filter)}>{filter}</button>)}</div>
     </section>
     <section className="matchday-card">

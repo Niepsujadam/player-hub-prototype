@@ -71,7 +71,8 @@
 .player-advanced-filters label { min-width: 0; min-height: 40px; padding: 0 9px; border: 1px solid var(--color-wh-line); border-radius: 8px; display: flex; align-items: center; gap: 7px; color: var(--color-wh-navy); background: white; }
 .player-advanced-filters .icon { width: 18px; height: 18px; flex: none; color: #546d91; }
 .player-advanced-filters select { min-width: 0; height: 38px; border: 0; outline: 0; flex: 1; color: var(--color-wh-navy); background: transparent; appearance: none; font-size: 12px; font-weight: 750; }
-.player-advanced-filters label > span { color: #728095; font-size: 15px; pointer-events: none; }
+.player-advanced-filters .filter-chevron { width: 18px; height: 38px; flex: none; display: grid; place-items: center; color: #728095; pointer-events: none; }
+.player-advanced-filters .filter-chevron .icon { width: 16px; height: 16px; color: inherit; }
 .live-feature { width: calc(100% - 28px); min-height: 150px; margin: 14px; padding: 0; border: 0; border-radius: 8px; display: flex; overflow: hidden; text-align: left; color: white; background: linear-gradient(135deg, #0b2b5b, #006fbd); box-shadow: 0 7px 16px rgb(7 29 73 / .18); }
 .live-feature .live-copy { width: 63%; padding: 18px 0 17px 16px; position: relative; z-index: 1; }
 .live-feature h2 { margin: 13px 0 4px; font-size: 23px; letter-spacing: -.025em; }
@@ -178,9 +179,12 @@
 .matches-page { min-height: 620px; padding-bottom: 14px; background: var(--color-wh-bg); }
 .match-controls { padding: 14px; border-bottom: 1px solid var(--color-wh-line); background: white; }
 .match-selectors { display: grid; grid-template-columns: 1.35fr 1fr; gap: 8px; }
+.match-selectors button .icon { width: 16px; height: 16px; flex: none; color: #728095; }
 .match-selectors button { min-height: 43px; padding: 0 11px; border: 1px solid var(--color-wh-line); border-radius: 7px; display: flex; align-items: center; justify-content: space-between; color: var(--color-wh-navy); background: #f7f9fb; font-size: 13px; font-weight: 750; }
 .matchweek-nav { padding: 15px 3px 10px; display: flex; align-items: center; justify-content: center; gap: 20px; color: var(--color-wh-navy); }
-.matchweek-nav > button { width: 40px; height: 40px; border: 1px solid var(--color-wh-line); border-radius: 50%; color: var(--color-wh-navy); background: #f2f5f8; font-size: 29px; font-weight: 300; }
+.matchweek-nav > button { width: 40px; height: 40px; padding: 0; display: grid; place-items: center; flex: none; border: 1px solid var(--color-wh-line); border-radius: 50%; color: var(--color-wh-navy); background: #f2f5f8; font-size: 29px; font-weight: 300; }
+.matchweek-nav > button .icon { width: 20px; height: 20px; }
+.matchweek-nav > button:last-child .icon { transform: rotate(180deg); }
 .matchweek-nav > div { min-width: 170px; display: grid; justify-items: center; gap: 4px; }
 .matchweek-nav strong { font-size: 18px; }
 .matchweek-nav span { color: var(--color-wh-muted); font-size: 12px; }
@@ -200,7 +204,7 @@
 .fixture-teams { display: grid; grid-template-columns: 1fr 52px 1fr; align-items: center; gap: 8px; }
 .fixture-teams > button { min-height: 44px; padding: 0; border: 0; display: flex; align-items: center; gap: 7px; color: var(--color-wh-navy); background: transparent; text-align: left; font-size: 13px; font-weight: 800; }
 .fixture-teams > button:last-child { justify-content: flex-end; text-align: right; }
-.fixture-teams b { width: 31px; height: 34px; border: 2px solid white; border-radius: 50% 50% 44% 44%; display: grid; place-items: center; color: white; font-size: 8px; box-shadow: 0 1px 4px rgb(6 10 42 / .2); }
+.fixture-teams b { width: 32px; height: 32px; aspect-ratio: 1; flex: 0 0 32px; border: 2px solid white; border-radius: 50%; display: grid; place-items: center; color: white; font-size: 8px; box-shadow: 0 1px 4px rgb(6 10 42 / .2); }
 .fixture-teams > strong { padding: 8px 4px; border-radius: 5px; text-align: center; color: white; background: var(--color-wh-navy); font-size: 17px; }
 .ninety-market { padding-top: 8px; border-top: 1px solid #edf0f3; display: grid; gap: 6px; }
 .ninety-market > span { color: var(--color-wh-muted); font-size: 10px; font-weight: 800; text-transform: uppercase; }
@@ -325,8 +329,8 @@
 .selected-player-markets > p { margin: 9px 0 0; color: var(--color-wh-muted); text-align: center; font-size: 10px; }
 .bet-opportunity { margin: 0 14px 14px; border: 1px solid #e1b900; border-radius: 7px; overflow: hidden; background: white; box-shadow: 0 4px 13px rgb(7 29 73 / .12); }
 .bet-opportunity-head { padding: 12px 13px; display: flex; align-items: flex-start; justify-content: space-between; background: linear-gradient(105deg, var(--color-wh-yellow), #ffe982); }
+.discover-page .bet-opportunity-head, .activity-market .bet-opportunity-head { background: linear-gradient(105deg, #c99b36, #ecd495); }
 .xi-page .bet-opportunity-head { background: linear-gradient(135deg, #f6f7f9 0%, #d8dde4 55%, #c3cad4 100%); box-shadow: inset 0 -1px 0 rgb(6 10 42 / .1); }
-.discover-page .bet-opportunity-head { background: linear-gradient(135deg, #f6f7f9 0%, #d8dde4 55%, #c3cad4 100%); box-shadow: inset 0 -1px 0 rgb(6 10 42 / .1); }
 .bet-opportunity-head > div { display: grid; gap: 4px; }
 .bet-opportunity-head p { margin: 0; color: var(--color-wh-navy); font-size: 13px; font-weight: 800; }
 .boost-label { width: fit-content; padding: 3px 7px; border-radius: 3px; color: white; background: var(--color-wh-navy); font-size: 11px; font-weight: 900; letter-spacing: .12em; }
