@@ -299,7 +299,7 @@
 .pitch-player > small { display: flex; align-items: center; gap: 4px; font-size: 10px; font-weight: 750; }
 .pitch-player > small b { width: 8px; height: 8px; border: 1px solid white; border-radius: 50%; aspect-ratio: 1; flex-shrink: 0; }
 .edit-dot { width: 21px; height: 21px; border: 2px solid white; border-radius: 50%; aspect-ratio: 1; flex-shrink: 0; display: grid; place-items: center; position: absolute; top: -2px; right: 10px; color: white; background: var(--color-wh-red); }
-.edit-dot .icon { width: 11px; }
+.edit-dot .icon { width: 11px; height: 11px; }
 .lineup-list { margin: 0 14px 14px; overflow: hidden; border: 1px solid var(--color-wh-line); border-radius: 6px; background: white; }
 .lineup-list > button { width: 100%; min-height: 72px; padding: 8px 10px; border: 0; border-bottom: 1px solid var(--color-wh-line); display: flex; align-items: center; gap: 9px; text-align: left; background: white; }
 .lineup-list > button:last-child { border-bottom: 0; }

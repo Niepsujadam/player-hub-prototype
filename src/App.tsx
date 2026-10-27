@@ -33,7 +33,52 @@ const players: Player[] = [
   { id: 'son', name: 'Son Heung-min', surname: 'Son', club: 'Tottenham', position: 'LW', status: 'finished', fixture: 'Tottenham 2–1 Everton', time: 'FT', summary: '1 goal · 3 shots', color: '#132257', image: photos[5] },
   { id: 'odegaard', name: 'Martin Ødegaard', surname: 'Ødegaard', club: 'Arsenal', position: 'AM', status: 'upcoming', fixture: 'Arsenal v Brighton', time: 'Sat 15:00', summary: '2 assists in last 5 matches', color: '#d71920', image: photos[2] },
   { id: 'cash', name: 'Matty Cash', surname: 'Cash', club: 'Aston Villa', position: 'RB', status: 'unavailable', fixture: 'Villa v Newcastle', time: 'Doubtful', summary: 'Hamstring issue · Fitness test before kick-off', color: '#670e36', image: photos[4] },
+  { id: "raya", name: "David Raya", surname: "Raya", club: "Arsenal", position: "GK", status: "live", fixture: "Arsenal v Chelsea", time: "LIVE 68'", summary: "Goalkeeper · Matchday squad", color: "#d71920", image: photos[0] },
+  { id: "alisson", name: "Alisson Becker", surname: "Alisson", club: "Liverpool", position: "GK", status: "upcoming", fixture: "Man City v Liverpool", time: "Today 17:30", summary: "Goalkeeper · Matchday squad", color: "#c8102e", image: photos[1] },
+  { id: "ederson", name: "Ederson", surname: "Ederson", club: "Man City", position: "GK", status: "upcoming", fixture: "Man City v Liverpool", time: "Today 17:30", summary: "Goalkeeper · Matchday squad", color: "#6cabdd", image: photos[2] },
+  { id: "saliba", name: "William Saliba", surname: "Saliba", club: "Arsenal", position: "CB", status: "live", fixture: "Arsenal v Chelsea", time: "LIVE 68'", summary: "Central defender · Matchday squad", color: "#d71920", image: photos[3] },
+  { id: "gabriel", name: "Gabriel Magalhães", surname: "Gabriel", club: "Arsenal", position: "CB", status: "live", fixture: "Arsenal v Chelsea", time: "LIVE 68'", summary: "Central defender · Matchday squad", color: "#d71920", image: photos[4] },
+  { id: "van-dijk", name: "Virgil van Dijk", surname: "Van Dijk", club: "Liverpool", position: "CB", status: "upcoming", fixture: "Man City v Liverpool", time: "Today 17:30", summary: "Central defender · Matchday squad", color: "#c8102e", image: photos[5] },
+  { id: "dias", name: "Rúben Dias", surname: "Dias", club: "Man City", position: "CB", status: "upcoming", fixture: "Man City v Liverpool", time: "Today 17:30", summary: "Central defender · Matchday squad", color: "#6cabdd", image: photos[0] },
+  { id: "timber", name: "Jurrien Timber", surname: "Timber", club: "Arsenal", position: "LB", status: "live", fixture: "Arsenal v Chelsea", time: "LIVE 68'", summary: "Left-back · Matchday squad", color: "#d71920", image: photos[1] },
+  { id: "robertson", name: "Andy Robertson", surname: "Robertson", club: "Liverpool", position: "LB", status: "upcoming", fixture: "Man City v Liverpool", time: "Today 17:30", summary: "Left-back · Matchday squad", color: "#c8102e", image: photos[2] },
+  { id: "james", name: "Reece James", surname: "James", club: "Chelsea", position: "RB", status: "live", fixture: "Arsenal v Chelsea", time: "LIVE 68'", summary: "Right-back · Matchday squad", color: "#034694", image: photos[3] },
+  { id: "white", name: "Ben White", surname: "White", club: "Arsenal", position: "RB", status: "live", fixture: "Arsenal v Chelsea", time: "LIVE 68'", summary: "Right-back · Matchday squad", color: "#d71920", image: photos[4] },
+  { id: "caicedo", name: "Moisés Caicedo", surname: "Caicedo", club: "Chelsea", position: "CM", status: "live", fixture: "Arsenal v Chelsea", time: "LIVE 68'", summary: "Central midfield · Matchday squad", color: "#034694", image: photos[5] },
+  { id: "mac-allister", name: "Alexis Mac Allister", surname: "Mac Allister", club: "Liverpool", position: "CM", status: "upcoming", fixture: "Man City v Liverpool", time: "Today 17:30", summary: "Central midfield · Matchday squad", color: "#c8102e", image: photos[0] },
+  { id: "foden", name: "Phil Foden", surname: "Foden", club: "Man City", position: "AM", status: "upcoming", fixture: "Man City v Liverpool", time: "Today 17:30", summary: "Attacking midfield · Matchday squad", color: "#6cabdd", image: photos[1] },
+  { id: "martinelli", name: "Gabriel Martinelli", surname: "Martinelli", club: "Arsenal", position: "LW", status: "live", fixture: "Arsenal v Chelsea", time: "LIVE 68'", summary: "Left wing · Matchday squad", color: "#d71920", image: photos[2] },
+  { id: "gordon", name: "Anthony Gordon", surname: "Gordon", club: "Newcastle", position: "LW", status: "upcoming", fixture: "Villa v Newcastle", time: "Today 17:30", summary: "Left wing · Matchday squad", color: "#241f20", image: photos[3] },
+  { id: "havertz", name: "Kai Havertz", surname: "Havertz", club: "Arsenal", position: "ST", status: "live", fixture: "Arsenal v Chelsea", time: "LIVE 68'", summary: "Striker · Matchday squad", color: "#d71920", image: photos[4] },
+  { id: "watkins", name: "Ollie Watkins", surname: "Watkins", club: "Aston Villa", position: "ST", status: "upcoming", fixture: "Villa v Newcastle", time: "Today 17:30", summary: "Striker · Matchday squad", color: "#670e36", image: photos[5] },
 ]
+
+// Keep eleven stable slots, including empty positions, through edits and persistence.
+function normaliseLineup(value: unknown): string[] {
+  const seen = new Set<string>()
+  return Array.from({ length: 11 }, (_, slot) => {
+    const id = Array.isArray(value) ? value[slot] : ''
+    if (typeof id !== 'string' || !players.some(player => player.id === id) || seen.has(id)) return ''
+    seen.add(id)
+    return id
+  })
+}
+
+function placeLineupPlayer(lineup: string[], slot: number, id: string): string[] {
+  const next = normaliseLineup(lineup)
+  if (slot < 0 || slot >= 11 || !Number.isInteger(slot) || !players.some(player => player.id === id)) return next
+  if (next.includes(id) && next[slot] !== id) return next
+  next[slot] = id
+  return next
+}
+
+function toggleLineupPlayer(lineup: string[], id: string): string[] {
+  const next = normaliseLineup(lineup)
+  const existing = next.indexOf(id)
+  if (existing !== -1) { next[existing] = ''; return next }
+  const empty = next.indexOf('')
+  return empty === -1 ? next : placeLineupPlayer(next, empty, id)
+}
 
 type NewsArticle = { id: string; playerId: string; category: string; title: string; fixture: string; time: string; lead: string; paragraphs: string[] }
 const newsArticles: NewsArticle[] = [
@@ -109,7 +154,10 @@ function App() {
   const [eventFixture, setEventFixture] = useState('Arsenal v Chelsea')
   const [query, setQuery] = useState('')
   const [formation, setFormation] = useState(() => localStorage.getItem('wh-formation') || '4-3-3')
-  const [selected, setSelected] = useState<string[]>(() => JSON.parse(localStorage.getItem('wh-xi') || '["saka","haaland","palmer","rice","salah"]'))
+  const [selected, setSelected] = useState<string[]>(() => {
+    try { return normaliseLineup(JSON.parse(localStorage.getItem('wh-xi') || '["saka","haaland","palmer","rice","salah"]')) }
+    catch { return normaliseLineup([]) }
+  })
   const [followed, setFollowed] = useState<string[]>(() => JSON.parse(localStorage.getItem('wh-followed') || '["saka","haaland"]'))
   const [picker, setPicker] = useState<number | null>(null)
   const [view, setView] = useState<'pitch' | 'list'>('pitch')
@@ -170,7 +218,7 @@ function App() {
     window.scrollTo({ top: 0, behavior: 'smooth' })
   }
   const toggleFollow = (id: string) => setFollowed(v => v.includes(id) ? v.filter(x => x !== id) : [...v, id])
-  const togglePlayer = (id: string) => setSelected(v => v.includes(id) ? v.filter(x => x !== id) : v.length < 11 ? [...v, id] : v)
+  const togglePlayer = (id: string) => setSelected(v => toggleLineupPlayer(v, id))
   const addBet = (label: string) => setBets(v => v.includes(label) ? v.filter(x => x !== label) : [...v, label])
   const live = selected.filter(id => players.find(p => p.id === id)?.status === 'live').length
   const upcoming = selected.filter(id => players.find(p => p.id === id)?.status === 'upcoming').length
@@ -224,7 +272,7 @@ function App() {
         <button><Icon name="user" /><span>Account</span></button>
       </nav>
 
-      {picker !== null && <PlayerPicker selected={selected} slot={picker} formation={formation} onClose={() => setPicker(null)} onPick={(id) => { setSelected(v => { const next = [...v]; next[picker] = id; return next.filter(Boolean) }); setPicker(null) }} />}
+      {picker !== null && <PlayerPicker selected={selected} slot={picker} formation={formation} onClose={() => setPicker(null)} onPick={(id) => { setSelected(v => placeLineupPlayer(v, picker, id)); setPicker(null) }} />}
       {showBetslip && <Betslip bets={bets} onClose={() => setShowBetslip(false)} onRemove={(b) => setBets(v => v.filter(x => x !== b))} />}
     </div>
   )
@@ -493,7 +541,7 @@ function MyPlayersPage({ active, setActive, followed, selected, onProfile, onFol
   return <div className="my-players-page">
     <nav className="my-players-tabs" aria-label="My Players views">
       <button aria-pressed={active === 'following'} className={active === 'following' ? 'active' : ''} onClick={() => setActive('following')}>Following <span>{followed.length}</span></button>
-      <button aria-pressed={active === 'xi'} className={active === 'xi' ? 'active' : ''} onClick={() => setActive('xi')}>My Starting XI <span>{selected.length}/11</span></button>
+      <button aria-pressed={active === 'xi'} className={active === 'xi' ? 'active' : ''} onClick={() => setActive('xi')}>My Starting XI <span>{selected.filter(Boolean).length}/11</span></button>
     </nav>
     {active === 'following'
       ? <FollowingPlayers followed={followed} selected={selected} onProfile={onProfile} onFollow={onFollow} onTeam={onTeam} />
@@ -532,15 +580,16 @@ function FollowingPlayers({ followed, selected, onProfile, onFollow, onTeam }: {
 
 function StartingXI({ formation, setFormation, selected, setSelected, picker, setPicker, view, setView, editing, setEditing, onProfile, live, upcoming, finished, saved, setSaved, bets, addBet, openBetslip, openAllMarkets }: any) {
   const [showFormation, setShowFormation] = useState(false)
-  const selectedPlayers = selected.map((id: string) => players.find(p => p.id === id)).filter(Boolean) as Player[]
+  const lineup = selected.map((id: string) => players.find(p => p.id === id)) as (Player | undefined)[]
+  const selectedPlayers = lineup.filter(Boolean) as Player[]
   let slotIndex = 0
   return <main className="xi-page">
     <section className="xi-summary"><div><strong>{live}</strong><span><i className="dot live" />Live</span></div><div><strong>{upcoming}</strong><span><i className="dot upcoming" />Upcoming</span></div><div><strong>{finished}</strong><span><i className="dot finished" />Finished</span></div></section>
     <section className="xi-toolbar">
-      <div><p className="eyebrow">{editing ? 'EDITING TEAM' : 'YOUR TEAM'}</p><h2>{selected.length} of 11 players selected</h2></div>
+      <div><p className="eyebrow">{editing ? 'EDITING TEAM' : 'YOUR TEAM'}</p><h2>{selected.filter(Boolean).length} of 11 players selected</h2></div>
       <button className="text-button" onClick={() => setEditing(!editing)}>{editing ? 'Done' : 'Edit team'}</button>
     </section>
-    <div className="progress"><span style={{ width: `${selected.length / 11 * 100}%` }} /></div>
+    <div className="progress"><span style={{ width: `${selected.filter(Boolean).length / 11 * 100}%` }} /></div>
     <section className="controls-row">
       <button className="formation-button" onClick={() => setShowFormation(!showFormation)}><Icon name="pitch" /><span><small>Formation</small><strong>{formation}</strong></span><span className="chevron">⌄</span></button>
       <div className="view-switch"><button className={view === 'pitch' ? 'active' : ''} onClick={() => setView('pitch')} aria-label="Pitch view"><Icon name="pitch" /></button><button className={view === 'list' ? 'active' : ''} onClick={() => setView('list')} aria-label="List view"><Icon name="list" /></button></div>
@@ -550,13 +599,13 @@ function StartingXI({ formation, setFormation, selected, setSelected, picker, se
       <div className="pitch-lines"><span className="halfway" /><span className="centre-circle" /><span className="box top" /><span className="box bottom" /></div>
       <div className="pitch-players">{rows[formation].map((count: number, row: number) => <div className="pitch-row" key={row}>{Array.from({ length: count }).map(() => {
         const i = slotIndex++
-        const p = selectedPlayers[i]
+        const p = lineup[i]
         const position = formations[formation][i]
-        return <button key={i} className={`pitch-player ${p ? 'occupied' : ''}`} onClick={() => p && !editing ? onProfile(p.id) : setPicker(i)}>
+        return <button key={i} aria-label={`${p ? editing ? 'Change' : 'View' : 'Add player to'} ${p ? p.name + ' at ' : ''}${position} slot ${i + 1}`} className={`pitch-player ${p ? 'occupied' : ''}`} onClick={() => p && !editing ? onProfile(p.id) : setPicker(i)}>
           {p ? <><span className="pitch-avatar"><img src={p.image} alt="" />{p.status === 'live' && <i />}</span><strong>{p.surname}</strong><small><b style={{ background: p.color }} />{position}</small>{editing && <span className="edit-dot"><Icon name="close" /></span>}</> : <><span className="empty-avatar"><Icon name="plus" /></span><strong>Add player</strong><small>{position}</small></>}
         </button>
       })}</div>)}</div>
-    </section> : <section className="lineup-list">{selectedPlayers.length ? selectedPlayers.map((p, i) => <button key={p.id} onClick={() => onProfile(p.id)}><span className="position-chip">{formations[formation][i]}</span><img src={p.image} alt="" /><span className="list-copy"><strong>{p.name}</strong><small>{p.club} · {p.fixture}</small></span><StatusPill status={p.status} time={p.time} /><span className="chevron">›</span></button>) : <div className="empty-state"><Icon name="pitch" /><h2>Your pitch is ready</h2><p>Add your first player to start tracking their matches.</p></div>}</section>}
+    </section> : <section className="lineup-list">{selectedPlayers.length ? lineup.map((p, i) => p ? <button key={p.id} onClick={() => onProfile(p.id)}><span className="position-chip">{formations[formation][i]}</span><img src={p.image} alt="" /><span className="list-copy"><strong>{p.name}</strong><small>{p.club} · {p.fixture}</small></span><StatusPill status={p.status} time={p.time} /><span className="chevron">›</span></button> : null) : <div className="empty-state"><Icon name="pitch" /><h2>Your pitch is ready</h2><p>Add your first player to start tracking their matches.</p></div>}</section>}
     {selected.includes('saka') && <BettingOpportunity bets={bets} addBet={addBet} openBetslip={openBetslip} onProfile={() => onProfile('saka')} />}
     <SelectedPlayerMarkets selected={selected} bets={bets} addBet={addBet} openBetslip={openBetslip} openAllMarkets={openAllMarkets} />
   </main>
@@ -609,12 +658,15 @@ function BettingOpportunity({ bets, addBet, openBetslip, onProfile }: { bets: st
 function PlayerPicker({ selected, slot, formation, onClose, onPick }: { selected: string[]; slot: number; formation: string; onClose: () => void; onPick: (id: string) => void }) {
   const [q, setQ] = useState('')
   const target = formations[formation][slot]
-  const list = players.filter(p => !selected.includes(p.id) && `${p.name} ${p.club} ${p.position}`.toLowerCase().includes(q.toLowerCase()))
-  return <div className="sheet-backdrop" onMouseDown={e => e.target === e.currentTarget && onClose()}><section className="bottom-sheet">
-    <div className="sheet-handle" /><div className="sheet-title"><div><p className="eyebrow">ADD TO {target}</p><h2>Choose a player</h2></div><button className="icon-button" onClick={onClose}><Icon name="close" /></button></div>
+  const preferred: Record<string, string[]> = { LM: ['LM', 'LW'], RM: ['RM', 'RW'], LWB: ['LWB', 'LB'], RWB: ['RWB', 'RB'], CM: ['CM', 'AM'] }
+  const matchesPosition = (player: Player) => (preferred[target] || [target]).includes(player.position)
+  const list = players.filter(p => !selected.includes(p.id) && `${p.name} ${p.club} ${p.position}`.toLowerCase().includes(q.trim().toLowerCase())).sort((a, b) => Number(matchesPosition(b)) - Number(matchesPosition(a)))
+  return <div className="sheet-backdrop" onMouseDown={e => e.target === e.currentTarget && onClose()}><section className="bottom-sheet" role="dialog" aria-modal="true" aria-label={`Choose a player for ${target} slot ${slot + 1}`}>
+    <div className="sheet-handle" /><div className="sheet-title"><div><p className="eyebrow">ADD TO {target}</p><h2>Choose a player</h2></div><button className="icon-button" onClick={onClose} aria-label="Close player picker"><Icon name="close" /></button></div>
     <label className="search-box"><Icon name="search" /><input autoFocus value={q} onChange={e => setQ(e.target.value)} placeholder="Search player or club" /></label>
-    <p className="recommendation">Recommended for {target}</p>
-    <div className="picker-list">{list.map(p => <button key={p.id} onClick={() => onPick(p.id)}><img src={p.image} alt="" /><span><strong>{p.name}</strong><small>{p.club} · {p.position}</small></span><Icon name="plus" /></button>)}</div>
+    <p className="recommendation">Choose for {target} · Position matches shown first</p>
+    <div className="picker-list">{list.map(p => <button key={p.id} aria-label={`Add ${p.name} to ${target} slot ${slot + 1}`} onClick={() => onPick(p.id)}><img src={p.image} alt="" /><span><strong>{p.name}</strong><small>{p.club} · {p.position}</small></span><Icon name="plus" /></button>)}</div>
+    {!list.length && <div className="empty-state"><h2>No matching players</h2><p>Try a different player name, club or position.</p></div>}
   </section></div>
 }
 
