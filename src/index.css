@@ -126,8 +126,8 @@
 .player-card-header > div:first-child { min-width: 0; display: grid; gap: 2px; }
 .player-card-header h3 { margin: 0; color: var(--color-wh-navy); font-family: 'SF Pro:Semibold', Arial, sans-serif; font-size: 18px; font-weight: 590; line-height: 20px; font-variation-settings: "wdth" 100; }
 .player-card-header p { margin: 0; color: #546d91; font-family: 'SF Pro:Regular', Arial, sans-serif; font-size: 14px; line-height: 16px; font-variation-settings: "wdth" 100; }
-.player-card-header > div:last-child { width: 106px; display: grid; justify-items: end; gap: 4px; flex: none; }
-.player-card-header > div:last-child button { min-height: 24px; padding: 0; border: 0; color: #0b52b1; background: transparent; font-family: 'SF Pro:Semibold', Arial, sans-serif; font-size: 14px; font-weight: 590; font-variation-settings: "wdth" 100; }
+.player-card-header > div:last-child { width: max-content; display: grid; justify-items: end; gap: 4px; flex: none; }
+.player-card-header > div:last-child button { white-space: nowrap; min-height: 24px; padding: 0; border: 0; color: #0b52b1; background: transparent; font-family: 'SF Pro:Semibold', Arial, sans-serif; font-size: 14px; font-weight: 590; font-variation-settings: "wdth" 100; }
 .player-card-header .status-live { background: #157b49; }
 .player-main { width: 100%; min-height: 128px; padding: 13px; border: 0; display: flex; align-items: flex-start; gap: 12px; text-align: left; background: white; }
 .portrait-wrap { width: 72px; height: 89px; border-radius: 5px; flex: none; position: relative; overflow: hidden; background: var(--color-wh-bg); }
