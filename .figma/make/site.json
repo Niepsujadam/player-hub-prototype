@@ -1,0 +1,11 @@
+{
+  "title": "William Hill | My Players",
+  "description": "Football fans can discover and follow players, build a personalised Starting XI, track live performances, explore stats and browse related betting markets.",
+  "robots": {
+    "index": false
+  },
+  "accessibility": {
+    "addBypassLinks": false,
+    "ignoreReducedMotion": false
+  }
+}
